@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>理学療法士実習支援ツール</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>理学療法士実習支援ツール</h1>
+            <p>患者評価からレポート作成までをサポート</p>
+        </header>
+
+        <nav class="tab-navigation">
+            <button class="tab-btn active" data-tab="evaluation">患者評価</button>
+            <button class="tab-btn" data-tab="treatment">治療項目</button>
+            <button class="tab-btn" data-tab="thinking">思考支援</button>
+            <button class="tab-btn" data-tab="report">レポート作成</button>
+        </nav>
+
+        <main>
+            <!-- 患者評価タブ -->
+            <div id="evaluation" class="tab-content active">
+                <h2>患者評価</h2>
+                
+                <!-- 患者選択エリア -->
+                <div class="patient-selection-area">
+                    <div class="patient-sidebar">
+                        <div class="patient-sidebar-header">
+                            <h3>患者一覧</h3>
+                            <button class="add-patient-btn" onclick="addNewPatient()">
+                                <span class="btn-icon">➕</span>
+                                患者追加
+                            </button>
+                        </div>
+                        <div class="patient-list" id="patient-list">
+                            <!-- 患者リストが動的に生成される -->
+                        </div>
+                    </div>
+                    
+                    <div class="patient-form-area">
+                        <div class="patient-form-header">
+                            <h3 id="current-patient-title">患者①</h3>
+                            <div class="patient-form-actions">
+                                <button class="delete-patient-btn" onclick="deleteCurrentPatient()" style="display: none;">
+                                    <span class="btn-icon">🗑️</span>
+                                    削除
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="evaluation-form">
+                            <div class="form-group">
+                                <label for="patient-name">患者名</label>
+                                <input type="text" id="patient-name" placeholder="患者名を入力">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="patient-age">年齢</label>
+                                <input type="number" id="patient-age" placeholder="年齢を入力">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="diagnosis">診断名</label>
+                                <input type="text" id="diagnosis" placeholder="診断名を入力">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="chief-complaint">主訴</label>
+                                <textarea id="chief-complaint" placeholder="患者の主訴を記録"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="medical-history">既往歴</label>
+                                <textarea id="medical-history" placeholder="既往歴を記録"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="current-condition">現症</label>
+                                <textarea id="current-condition" placeholder="現在の状態を記録"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="adl-assessment">ADL評価</label>
+                                <div class="adl-assessment-buttons">
+                                    <button type="button" class="assessment-btn" data-assessment="fim">
+                                        <span class="btn-icon">📋</span>
+                                        FIM (Functional Independence Measure)
+                                    </button>
+                                    <button type="button" class="assessment-btn" data-assessment="barthel">
+                                        <span class="btn-icon">📊</span>
+                                        Barthel Index
+                                    </button>
+                                </div>
+                                <div id="fim-assessment" class="assessment-content" style="display: none;">
+                                    <!-- FIM評価の内容は後で埋め込み -->
+                                    <p>FIM評価の詳細項目がここに表示されます</p>
+                                </div>
+                                <div id="barthel-assessment" class="assessment-content" style="display: none;">
+                                    <!-- Barthel Index評価の内容は後で埋め込み -->
+                                    <p>Barthel Index評価の詳細項目がここに表示されます</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cognitive-assessment">認知機能評価</label>
+                                <div class="cognitive-assessment-buttons">
+                                    <button type="button" class="assessment-btn" data-assessment="hdsr">
+                                        <span class="btn-icon">🧠</span>
+                                        HDS-R (改訂長谷川式簡易知能評価スケール)
+                                    </button>
+                                    <button type="button" class="assessment-btn" data-assessment="mmse">
+                                        <span class="btn-icon">📝</span>
+                                        MMSE (Mini-Mental State Examination)
+                                    </button>
+                                </div>
+                                <div id="hdsr-assessment" class="assessment-content" style="display: none;">
+                                    <!-- HDS-R評価の内容は後で埋め込み -->
+                                    <p>HDS-R評価の詳細項目がここに表示されます</p>
+                                </div>
+                                <div id="mmse-assessment" class="assessment-content" style="display: none;">
+                                    <!-- MMSE評価の内容は後で埋め込み -->
+                                    <p>MMSE評価の詳細項目がここに表示されます</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="muscle-strength">筋力</label>
+                                <div class="muscle-strength-buttons">
+                                    <button type="button" class="assessment-btn" data-assessment="mmt">
+                                        <span class="btn-icon">💪</span>
+                                        MMT (Manual Muscle Testing)
+                                    </button>
+                                </div>
+                                <div id="mmt-assessment" class="assessment-content" style="display: none;">
+                                    <!-- MMT評価の内容は後で埋め込み -->
+                                    <p>MMT評価の詳細項目がここに表示されます</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="range-of-motion">関節可動域</label>
+                                <div class="rom-buttons">
+                                    <button type="button" class="assessment-btn" data-assessment="rom">
+                                        <span class="btn-icon">🔄</span>
+                                        ROM (Range of Motion)
+                                    </button>
+                                </div>
+                                <div id="rom-assessment" class="assessment-content" style="display: none;">
+                                    <!-- ROM評価の内容は後で埋め込み -->
+                                    <p>ROM評価の詳細項目がここに表示されます</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="balance-assessment">バランス評価</label>
+                                <div class="balance-assessment-buttons">
+                                    <button type="button" class="assessment-btn" data-assessment="tug">
+                                        <span class="btn-icon">⏱️</span>
+                                        TUG (Timed Up and Go Test)
+                                    </button>
+                                    <button type="button" class="assessment-btn" data-assessment="bbs">
+                                        <span class="btn-icon">⚖️</span>
+                                        BBS (Berg Balance Scale)
+                                    </button>
+                                </div>
+                                <div id="tug-assessment" class="assessment-content" style="display: none;">
+                                    <!-- TUG評価の内容は後で埋め込み -->
+                                    <p>TUG評価の詳細項目がここに表示されます</p>
+                                </div>
+                                <div id="bbs-assessment" class="assessment-content" style="display: none;">
+                                    <!-- BBS評価の内容は後で埋め込み -->
+                                    <p>BBS評価の詳細項目がここに表示されます</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sensory-assessment">感覚評価</label>
+                                <div class="sensory-assessment-buttons">
+                                    <button type="button" class="assessment-btn" data-assessment="sensory">
+                                        <span class="btn-icon">🖐️</span>
+                                        感覚検査
+                                    </button>
+                                </div>
+                                <div id="sensory-assessment" class="assessment-content" style="display: none;">
+                                    <!-- 感覚検査の内容は後で埋め込み -->
+                                    <p>感覚検査の詳細項目がここに表示されます</p>
+                                </div>
+                            </div>
+
+                            <button class="save-btn" onclick="saveEvaluation()">評価を保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 治療項目タブ -->
+            <div id="treatment" class="tab-content">
+                <h2>治療項目</h2>
+                <div class="treatment-form">
+                    <div class="form-group">
+                        <label for="treatment-goals">治療目標</label>
+                        <div class="goals-container">
+                            <div class="goal-section">
+                                <label for="short-term-goals">短期目標</label>
+                                <textarea id="short-term-goals" placeholder="短期目標を記録（1-2週間程度）"></textarea>
+                            </div>
+                            <div class="goal-section">
+                                <label for="long-term-goals">長期目標</label>
+                                <textarea id="long-term-goals" placeholder="長期目標を記録（1-3ヶ月程度）"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="treatment-methods">治療方法</label>
+                        <div class="treatment-methods">
+                            <label><input type="checkbox" value="運動療法" data-treatment="exercise"> 運動療法</label>
+                            <label><input type="checkbox" value="物理療法" data-treatment="physical"> 物理療法</label>
+                            <label><input type="checkbox" value="ADL訓練" data-treatment="adl"> ADL訓練</label>
+                            <label><input type="checkbox" value="歩行訓練" data-treatment="gait"> 歩行訓練</label>
+                            <label><input type="checkbox" value="筋力増強" data-treatment="strength"> 筋力増強</label>
+                            <label><input type="checkbox" value="関節可動域訓練" data-treatment="rom"> 関節可動域訓練</label>
+                            <label><input type="checkbox" value="バランス訓練" data-treatment="balance"> バランス訓練</label>
+                            <label><input type="checkbox" value="呼吸訓練" data-treatment="breathing"> 呼吸訓練</label>
+                        </div>
+                        
+                        <!-- 治療方法の詳細記録欄 -->
+                        <div class="treatment-details">
+                            <div id="exercise-details" class="treatment-detail-section" style="display: none;">
+                                <h4>運動療法の詳細</h4>
+                                <textarea placeholder="実施した運動療法の詳細を記録してください"></textarea>
+                            </div>
+                            <div id="physical-details" class="treatment-detail-section" style="display: none;">
+                                <h4>物理療法の詳細</h4>
+                                <textarea placeholder="実施した物理療法の詳細を記録してください"></textarea>
+                            </div>
+                            <div id="adl-details" class="treatment-detail-section" style="display: none;">
+                                <h4>ADL訓練の詳細</h4>
+                                <textarea placeholder="実施したADL訓練の詳細を記録してください"></textarea>
+                            </div>
+                            <div id="gait-details" class="treatment-detail-section" style="display: none;">
+                                <h4>歩行訓練の詳細</h4>
+                                <textarea placeholder="実施した歩行訓練の詳細を記録してください"></textarea>
+                            </div>
+                            <div id="strength-details" class="treatment-detail-section" style="display: none;">
+                                <h4>筋力増強の詳細</h4>
+                                <textarea placeholder="実施した筋力増強の詳細を記録してください"></textarea>
+                            </div>
+                            <div id="rom-details" class="treatment-detail-section" style="display: none;">
+                                <h4>関節可動域訓練の詳細</h4>
+                                <textarea placeholder="実施した関節可動域訓練の詳細を記録してください"></textarea>
+                            </div>
+                            <div id="balance-details" class="treatment-detail-section" style="display: none;">
+                                <h4>バランス訓練の詳細</h4>
+                                <textarea placeholder="実施したバランス訓練の詳細を記録してください"></textarea>
+                            </div>
+                            <div id="breathing-details" class="treatment-detail-section" style="display: none;">
+                                <h4>呼吸訓練の詳細</h4>
+                                <textarea placeholder="実施した呼吸訓練の詳細を記録してください"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="treatment-notes">治療記録</label>
+                        <textarea id="treatment-notes" placeholder="治療内容と患者の反応を記録"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="home-exercise">自主訓練</label>
+                        <textarea id="home-exercise" placeholder="患者に指導した自主訓練内容"></textarea>
+                    </div>
+
+                    <button class="save-btn" onclick="saveTreatment()">治療記録を保存</button>
+                </div>
+            </div>
+
+            <!-- 思考支援タブ -->
+            <div id="thinking" class="tab-content">
+                <h2>思考支援</h2>
+                <div class="thinking-support">
+                    <div class="conversation-controls">
+                        <button class="start-conversation-btn" onclick="startConversation()">対話を開始</button>
+                        <button class="load-conversation-btn" onclick="loadConversation()">履歴を読み込み</button>
+                        <button class="save-conversation-btn" onclick="saveConversation()" style="display: none;">対話を保存</button>
+                        <button class="end-conversation-btn" onclick="endConversation()" style="display: none;">対話を終了</button>
+                    </div>
+
+                    <div class="conversation-container" style="display: none;">
+                        <div class="chat-messages" id="chat-messages">
+                            <!-- メッセージが動的に追加される -->
+                        </div>
+                        
+                        <div class="user-input-area">
+                            <textarea id="user-answer" placeholder="あなたの考えを入力してください"></textarea>
+                            <button onclick="submitAnswer()">回答を送信</button>
+                        </div>
+                    </div>
+
+                    <div class="conversation-history" id="conversation-history">
+                        <div class="history-header">
+                            <h3>対話履歴</h3>
+                            <button class="clear-history-btn" onclick="clearConversationHistory()">
+                                <span class="btn-icon">🗑️</span>
+                                履歴を削除
+                            </button>
+                        </div>
+                        <div class="history-list" id="history-list">
+                            <!-- 保存された対話履歴が表示される -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- レポート作成タブ -->
+            <div id="report" class="tab-content">
+                <h2>レポート作成</h2>
+                <div class="report-generator">
+                    <div class="report-sections">
+                        <div class="section-group">
+                            <h3>患者情報</h3>
+                            <div class="report-section" id="patient-info-section">
+                                <!-- 患者情報が自動入力される -->
+                            </div>
+                        </div>
+
+                        <div class="section-group">
+                            <h3>評価結果</h3>
+                            <div class="report-section" id="evaluation-section">
+                                <!-- 評価結果が自動入力される -->
+                            </div>
+                        </div>
+
+                        <div class="section-group">
+                            <h3>治療計画</h3>
+                            <div class="report-section" id="treatment-section">
+                                <!-- 治療計画が自動入力される -->
+                            </div>
+                        </div>
+
+                        <div class="section-group">
+                            <h3>思考過程</h3>
+                            <div class="report-section" id="thinking-section">
+                                <!-- 思考過程が自動入力される -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="report-actions">
+                        <button class="generate-btn" onclick="generateReport()">レポート生成</button>
+                        <button class="export-btn" onclick="exportReport()">PDF出力</button>
+                        <button class="clear-btn" onclick="clearAllData()">データクリア</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
