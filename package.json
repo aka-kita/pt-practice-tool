@@ -1,0 +1,37 @@
+{
+  "name": "pt-practice-tool",
+  "version": "1.0.0",
+  "description": "理学療法士実習支援ツール",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win --mac --linux --publish=never --dir"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aka-kita/pt-practice-tool.git"
+  },
+  "keywords": ["理学療法", "実習", "支援ツール"],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aka-kita/pt-practice-tool/issues"
+  },
+  "homepage": "https://github.com/aka-kita/pt-practice-tool#readme",
+  "devDependencies": {
+    "electron": "^37.2.3",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "win": {
+      "signAndEditExecutable": false
+    },
+    "mac": {
+      "sign": false
+    },
+    "linux": {
+      "sign": false
+    }
+  }
+}
+ 
