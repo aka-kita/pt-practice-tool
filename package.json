@@ -28,9 +28,6 @@
     },
     "mac": {
       "sign": false
-    },
-    "linux": {
-      "sign": false
     }
   }
 }
