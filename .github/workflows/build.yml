@@ -26,15 +26,21 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Build application
-      run: |
-        if [ "${{ matrix.os }}" = "windows-latest" ]; then
-          npm run build-win
-        elif [ "${{ matrix.os }}" = "macos-latest" ]; then
-          npm run build-mac
-        elif [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
-          npm run build-linux
-        fi
+    - name: Build application (Windows)
+      if: matrix.os == 'windows-latest'
+      run: npm run build-win
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build application (macOS)
+      if: matrix.os == 'macos-latest'
+      run: npm run build-mac
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build application (Linux)
+      if: matrix.os == 'ubuntu-latest'
+      run: npm run build-linux
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
