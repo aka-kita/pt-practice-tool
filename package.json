@@ -5,7 +5,10 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder --win --mac --linux --publish=never --dir"
+    "build": "electron-builder --win --publish=never --dir",
+    "build-win": "electron-builder --win --publish=never --dir",
+    "build-mac": "electron-builder --mac --publish=never --dir",
+    "build-linux": "electron-builder --linux --publish=never --dir"
   },
   "repository": {
     "type": "git",
