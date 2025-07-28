@@ -30,7 +30,13 @@
       "signAndEditExecutable": false
     },
     "mac": {
-      "sign": false
+      "sign": false,
+      "target": [
+        {
+          "target": "dir",
+          "arch": ["x64", "arm64"]
+        }
+      ]
     }
   }
 }
